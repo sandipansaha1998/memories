@@ -14,7 +14,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 
 import "./style.css";
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId, show, setShow }) => {
   console.log(post);
   return (
     <Card className="post-card">
@@ -31,9 +31,16 @@ const Post = ({ post }) => {
         image={post.selectedFile}
         title={post.title}
       />
-
+      {/* edit button */}
       <div className="overlay2">
-        <Button style={{ color: "black" }} size="small" onClick={() => {}}>
+        <Button
+          style={{ color: "black" }}
+          size="small"
+          onClick={() => {
+            setCurrentId(post._id);
+            setShow(!show);
+          }}
+        >
           <MoreHorizIcon fontSize="medium" />
         </Button>
       </div>

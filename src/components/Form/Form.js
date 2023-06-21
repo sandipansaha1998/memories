@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Paper } from "@mui/material";
 import Filebase from "react-file-base64";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LinkedCameraIcon from "@mui/icons-material/LinkedCamera";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 import "./style.css";
 import { notify } from "../Notification";
-const Form = ({ show, setShow }) => {
+const Form = ({ show, setShow, currentId, setCurrentId }) => {
+  const postToBeUpdated = useSelector((state) => {
+    return currentId ? state.posts.find((p) => p._id === currentId) : null;
+  });
   const [postData, setpostData] = useState({
     creator: "",
     title: "",
@@ -16,11 +19,24 @@ const Form = ({ show, setShow }) => {
   });
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (postToBeUpdated) {
+      setpostData(postToBeUpdated);
+    }
+  }, [postToBeUpdated]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    notify().success("Photo Uploaded");
-    dispatch(createPost(postData));
+
+    if (currentId) {
+      notify().success("Updated");
+      dispatch(updatePost(currentId, postData));
+    } else {
+      notify().success("Photo Uploaded");
+      dispatch(createPost(postData));
+    }
     setShow(!show);
+    setCurrentId(null);
   };
 
   return (
@@ -33,7 +49,8 @@ const Form = ({ show, setShow }) => {
       >
         <h4 className="text-center">
           <span className=" ">
-            Plant a Memory <LinkedCameraIcon fontSize="medium" />
+            {currentId ? `Edit ` : `Plant a Memory`}{" "}
+            <LinkedCameraIcon fontSize="medium" />
           </span>
         </h4>
         <TextField
@@ -91,7 +108,7 @@ const Form = ({ show, setShow }) => {
         <input
           type="submit"
           className="btn btn-outline-primary p-2"
-          value="Create"
+          value={currentId ? `Update ` : `Post`}
         />
       </form>
     </Paper>

@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { IconButton } from "@mui/material";
@@ -17,15 +16,19 @@ export const App = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [currentId, setCurrentId] = useState(null);
+
   const posts = useSelector((state) => {
     return state.posts;
   });
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
-
+  const handleClose = () => {
+    setShow(false);
+    setCurrentId(null);
+  };
+  const handleShow = () => setShow(true);
   return (
     <div className="App container-fluid">
       <nav
@@ -50,7 +53,12 @@ export const App = () => {
       </nav>
       <Modal show={show} onHide={handleClose}>
         <Modal.Body>
-          <Form show={show} setShow={setShow} />
+          <Form
+            show={show}
+            setShow={setShow}
+            currentId={currentId}
+            setCurrentId={setCurrentId}
+          />
         </Modal.Body>
       </Modal>
       <appcontainer className="container-fluid m-2 ">
@@ -60,7 +68,12 @@ export const App = () => {
           <div>
             <div className="d-flex">
               {" "}
-              <Posts />
+              <Posts
+                show={show}
+                setShow={setShow}
+                currentId={currentId}
+                setCurrentId={setCurrentId}
+              />
             </div>
           </div>
         )}

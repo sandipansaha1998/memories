@@ -5,6 +5,11 @@ const posts = (posts = [], action) => {
     case "CREATE":
       console.log(action.payload);
       return [...posts, action.payload];
+    case "UPDATE":
+      return posts.map((post) => {
+        if (post._id === action.payload.id) return action.payload.data;
+        return post;
+      });
     default:
       return posts;
   }

@@ -3,21 +3,22 @@ import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 
 import Post from "./Post/Post";
-const Posts = () => {
+const Posts = ({ setCurrentId, setShow, show }) => {
   const posts = useSelector((state) => {
     return state.posts;
   });
 
-  return !posts.length ? (
-    <div className="container text-center">
-      <CircularProgress />
-    </div>
-  ) : (
+  return (
     <div className=" d-flex gap-4 flex-wrap justify-content-center   align-items-stretch container">
       {posts.map((post) => {
         return (
           <div className="post-container col-10 col-md-6 col-lg-6">
-            <Post post={post} />
+            <Post
+              post={post}
+              show={show}
+              setShow={setShow}
+              setCurrentId={setCurrentId}
+            />
           </div>
         );
       })}

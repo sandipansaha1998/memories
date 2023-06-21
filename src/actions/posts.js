@@ -4,8 +4,8 @@ import * as api from "../api";
 
 export const getPosts = () => async (dispatch) => {
   try {
-    const data = await api.fetchPosts();
-    console.log("response", data);
+    const { data } = await api.fetchPosts();
+    console.log("response asd", data);
     dispatch({ type: "FETCH_ALL", payload: data });
     // dispatch({ type: "FETCH_ALL", payload: ["test"] });
   } catch (e) {
@@ -15,11 +15,25 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
   try {
-    const data = await api.createPost(post);
+    const { data } = await api.createPost(post);
     console.log("Response From API", data);
     dispatch({
       type: "CREATE",
       payload: data,
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const updatePost = (id, updatedPost) => async (dispatch) => {
+  try {
+    const { data } = await api.updatePost(id, updatedPost);
+
+    console.log("Response From API", data);
+
+    dispatch({
+      type: "UPDATE",
+      payload: { data, id },
     });
   } catch (error) {
     console.error(error.message);
