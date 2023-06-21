@@ -12,6 +12,7 @@ import Posts from "./Posts/Posts";
 import Form from "./Form/Form";
 import "./style.css";
 import { getPosts } from "../actions/posts";
+import { LandingPage } from "./LandingPage";
 export const App = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -63,7 +64,7 @@ export const App = () => {
       </Modal>
       <appcontainer className="container-fluid m-2 ">
         {posts.length === 0 ? (
-          <div className="col-10 col-md-9 col-lg-4 mx-auto"></div>
+          <LandingPage />
         ) : (
           <div>
             <div className="d-flex">

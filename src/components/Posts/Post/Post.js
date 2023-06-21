@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Card,
   CardActions,
@@ -12,10 +13,20 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
-
+import { Modal } from "react-bootstrap";
 import "./style.css";
+import { deletePost } from "../../../actions/posts";
+import { notify } from "../../Notification";
 const Post = ({ post, setCurrentId, show, setShow }) => {
-  console.log(post);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
+  const dispatch = useDispatch();
+  const handleDeleteButton = () => {
+    notify().success("Post deleted");
+    // handleCloseDeleteModal();
+    dispatch(deletePost(post._id));
+  };
   return (
     <Card className="post-card">
       <div className="overlay">
@@ -62,10 +73,33 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
           <ThumbUpOffAltIcon className="me-2" fontSize="small" />{" "}
           {post.likeCount}{" "}
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => {
+            handleShowDeleteModal();
+          }}
+        >
           <DeleteIcon fontSize="small" />
         </Button>
       </CardActions>
+      {/* Modal for confirm delete */}
+
+      <Modal id="delete" show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body className="text-center">
+          Deleted posts cannot be deleted
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleDeleteButton}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Card>
   );
 };

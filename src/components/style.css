@@ -10,6 +10,24 @@
   border-radius: 7px;
 }
 
-.icon-button:hover {
+.icon-button {
   background-color: white !important;
+  padding: 12px !important;
+}
+.icon-button:hover {
+  background-color: rgb(78, 179, 172) !important;
+}
+.app-slogan {
+  font-family: "Eczar", serif;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: rgb(8, 8, 8);
+}
+.landing-image {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+  border-radius: 25px;
+  padding: 5px;
+  background: white;
 }

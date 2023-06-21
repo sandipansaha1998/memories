@@ -10,6 +10,15 @@ const posts = (posts = [], action) => {
         if (post._id === action.payload.id) return action.payload.data;
         return post;
       });
+    case "DELETE":
+      const postsNow = posts.filter((post) => {
+        if (post._id !== action.payload.id) {
+          return true;
+        }
+        return false;
+      });
+      console.log("Reduced  to :", postsNow);
+      return postsNow;
     default:
       return posts;
   }
