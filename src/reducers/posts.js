@@ -1,9 +1,10 @@
 const posts = (posts = [], action) => {
   switch (action.type) {
     case "FETCH_ALL":
+      console.log(action.payload);
       return action.payload;
     case "CREATE":
-      console.log(action.payload);
+      console.log("POST CREATE REDUCER");
       return [...posts, action.payload];
     case "UPDATE":
       return posts.map((post) => {
@@ -17,7 +18,7 @@ const posts = (posts = [], action) => {
         }
         return false;
       });
-      console.log("Reduced  to :", postsNow);
+      // console.log("Reduced  to :", postsNow);
       return postsNow;
     default:
       return posts;

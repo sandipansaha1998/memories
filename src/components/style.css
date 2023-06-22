@@ -11,8 +11,8 @@
 }
 
 .icon-button {
-  background-color: white !important;
-  padding: 12px !important;
+  background-color: rgb(123, 212, 237) !important;
+  padding: 15px !important;
 }
 .icon-button:hover {
   background-color: rgb(78, 179, 172) !important;

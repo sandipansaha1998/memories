@@ -1,0 +1,18 @@
+.drop-down-toggler {
+  padding: 0;
+  background: transparent !important;
+  border: 0;
+}
+.drop-down-toggler::after {
+  display: none;
+}
+
+.drop-down-toggler:hover {
+  background: transparent !important;
+}
+.drop-down-toggler:active {
+  background: transparent !important;
+}
+.drop-down-toggler:active:hover {
+  background: transparent !important;
+}

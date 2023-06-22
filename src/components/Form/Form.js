@@ -11,7 +11,6 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
     return currentId ? state.posts.find((p) => p._id === currentId) : null;
   });
   const [postData, setpostData] = useState({
-    creator: "",
     title: "",
     message: "",
     tags: "",
@@ -25,7 +24,7 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
     }
   }, [postToBeUpdated]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (currentId) {
@@ -33,6 +32,7 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
       dispatch(updatePost(currentId, postData));
     } else {
       notify().success("Photo Uploaded");
+      console.log("POSTDATA", postData);
       dispatch(createPost(postData));
     }
     setShow(!show);
@@ -53,16 +53,6 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
             <LinkedCameraIcon fontSize="medium" />
           </span>
         </h4>
-        <TextField
-          name="creator"
-          variant="standard"
-          label="Creator"
-          className="container-fluid"
-          value={postData.creator}
-          onChange={(e) => {
-            setpostData({ ...postData, creator: e.target.value });
-          }}
-        ></TextField>
 
         <TextField
           name="title"

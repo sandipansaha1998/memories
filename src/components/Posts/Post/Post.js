@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardActions,
@@ -15,17 +15,22 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import moment from "moment";
 import { Modal } from "react-bootstrap";
 import "./style.css";
-import { deletePost } from "../../../actions/posts";
+import { deletePost, toggleLikePost } from "../../../actions/posts";
 import { notify } from "../../Notification";
 const Post = ({ post, setCurrentId, show, setShow }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const handleDeleteButton = () => {
     notify().success("Post deleted");
-    // handleCloseDeleteModal();
+    handleCloseDeleteModal();
     dispatch(deletePost(post._id));
+  };
+  const handleLike = () => {
+    console.log(post);
+    dispatch(toggleLikePost(post._id));
   };
   return (
     <Card className="post-card">
@@ -34,7 +39,7 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
           {" "}
           {moment(post.createdAt).fromNow()}
         </Typography>
-        <Typography variant="body2">{post.creator}</Typography>
+        <Typography variant="body2">{post.creator.name}</Typography>
       </div>
       <CardMedia
         className="media px-2"
@@ -44,16 +49,18 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
       />
       {/* edit button */}
       <div className="overlay2">
-        <Button
-          style={{ color: "black" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(post._id);
-            setShow(!show);
-          }}
-        >
-          <MoreHorizIcon fontSize="medium" />
-        </Button>
+        {auth?.user.id === post.creator._id && (
+          <Button
+            style={{ color: "black" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(post._id);
+              setShow(!show);
+            }}
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        )}
       </div>
       <div className="details">
         <Typography variant="body2" color="textSecondary" component="h2">
@@ -69,19 +76,25 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
         </Typography>
       </CardContent>
       <CardActions className="cardActions">
-        <Button size="small" color="primary" onClick={() => {}}>
-          <ThumbUpOffAltIcon className="me-2" fontSize="small" />{" "}
-          {post.likeCount}{" "}
-        </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            handleShowDeleteModal();
-          }}
-        >
-          <DeleteIcon fontSize="small" />
-        </Button>
+        {post.likes.includes(auth?.user.id) ? (
+          <Button onClick={handleLike}>Liked</Button>
+        ) : (
+          <Button size="small" color="primary" onClick={handleLike}>
+            <ThumbUpOffAltIcon className="me-2" fontSize="small" />{" "}
+          </Button>
+        )}
+
+        {auth?.user.id === post.creator._id && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              handleShowDeleteModal();
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+          </Button>
+        )}
       </CardActions>
       {/* Modal for confirm delete */}
 
