@@ -37,7 +37,6 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
   };
   // Handles Like
   const handleLike = () => {
-    console.log(post);
     dispatch(toggleLikePost(post._id));
   };
 

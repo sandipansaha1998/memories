@@ -74,6 +74,5 @@ export const login = async (formData) => {
 };
 export const signup = async (formData) => {
   const response = await customFetch("POST", "/user/signup", formData);
-  console.log(response);
   return response;
 };

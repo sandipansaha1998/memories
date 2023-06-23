@@ -33,7 +33,7 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
 
     if (currentId) {
       //Updates Post
-      const message = dispatch(updatePost(currentId, postData));
+      const message = await dispatch(updatePost(currentId, postData));
       if (message) {
         notify().error(message);
       } else {
@@ -41,12 +41,11 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
       }
     } else {
       // Current id null ==> Post creation
-      console.log("POSTDATA", postData);
-      const message = dispatch(createPost(postData));
+      const message = await dispatch(createPost(postData));
       if (message) {
         notify().error(message);
       } else {
-        notify().success("Updated");
+        notify().success("Successfully Uploaded");
       }
     }
     // Hides the modal and resets the currentId to no more associate the form with updation of post withs particular id,

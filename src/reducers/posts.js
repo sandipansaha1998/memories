@@ -1,10 +1,8 @@
 const posts = (posts = null, action) => {
   switch (action.type) {
     case "FETCH_ALL":
-      console.log(action.payload);
       return action.payload;
     case "CREATE":
-      console.log("POST CREATE REDUCER");
       return [action.payload, ...posts];
     case "UPDATE":
       return posts.map((post) => {

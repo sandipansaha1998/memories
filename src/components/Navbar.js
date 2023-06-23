@@ -11,8 +11,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setAuth } from "../actions/auth";
 
-import Switch from "../components/Switch";
-
 import "../styles/Navbar.css";
 import memories from "../images/memories.png";
 

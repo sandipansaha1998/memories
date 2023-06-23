@@ -8,7 +8,6 @@ export const getPosts = () => async (dispatch) => {
     if (!response.success) {
       return response.message;
     }
-    console.log(response);
     dispatch({ type: "FETCH_ALL", payload: response.data.posts });
   } catch (e) {
     console.error(e.message);
@@ -57,7 +56,6 @@ export const updatePost = (id, updatedPost) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    // console.log("Action:", id);
     await api.deletePost(id);
 
     dispatch({

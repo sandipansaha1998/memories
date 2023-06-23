@@ -16,7 +16,6 @@ const Home = ({ show, setShow, currentId, setCurrentId }) => {
   });
   const [isMyFeed, setIsMyFeed] = useState(false);
   const handleFeedToggle = () => {
-    console.log("Click");
     setIsMyFeed(!isMyFeed);
   };
   useEffect(() => {
