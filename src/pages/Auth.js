@@ -47,7 +47,6 @@ const Auth = () => {
         notify().error(message);
       } else {
         notify().success("Welcome ");
-        // navigate("/");
       }
     }
   };
@@ -61,7 +60,7 @@ const Auth = () => {
   }
 
   return (
-    <div className="col-5 mx-auto">
+    <div className="col-10 col-md-7 col-lg-5 mx-auto">
       <Paper className="text-center p-4">
         <Avatar className="mx-auto mb-2">
           <LockIcon />

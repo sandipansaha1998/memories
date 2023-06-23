@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useSelector } from "react-redux";
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-
-import "./style.css";
+import "../styles/App.css";
 import { getPosts } from "../actions/posts";
-import { Navbar } from "./Navbar/Navbar";
+import { Navbar } from "./Navbar";
 import Home from "../pages/Home";
 import Auth from "../pages/Auth";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-
+import { LandingPage } from "./LandingPage";
 export const App = () => {
   const dispatch = useDispatch();
+  // hook for modal visibility
   const [show, setShow] = useState(false);
+  // hook for updating or deleting post
   const [currentId, setCurrentId] = useState(null);
 
   useEffect(() => {
@@ -23,7 +22,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="App container-fluid">
+    <div className="App ">
       <ToastContainer />
       <Navbar
         show={show}
@@ -32,10 +31,12 @@ export const App = () => {
         setCurrentId={setCurrentId}
       />
       <Routes>
-        {" "}
+        {/* Home */}
+        <Route exact path="/" element={<LandingPage />}></Route>
+        {/* Feed */}
         <Route
           exact
-          path="/"
+          path="/feed"
           element={
             <Home
               show={show}
@@ -45,6 +46,9 @@ export const App = () => {
             />
           }
         ></Route>
+        {/* Wall */}
+
+        {/* Sign up and login */}
         <Route exact path="/auth" element={<Auth />}></Route>
       </Routes>
     </div>

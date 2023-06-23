@@ -8,30 +8,40 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-
 import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import moment from "moment";
 import { Modal } from "react-bootstrap";
-import "./style.css";
-import { deletePost, toggleLikePost } from "../../../actions/posts";
-import { notify } from "../../Notification";
+import { deletePost, toggleLikePost } from "../actions/posts";
+import { notify } from "./Notification";
+
+import "../styles/Post.css";
+
 const Post = ({ post, setCurrentId, show, setShow }) => {
+  // Hook for Visibilty of confirm delete modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  // Show and close handles
   const handleCloseDeleteModal = () => setShowDeleteModal(false);
   const handleShowDeleteModal = () => setShowDeleteModal(true);
+
   const dispatch = useDispatch();
+
   const auth = useSelector((state) => state.auth);
+  // Handles delete
   const handleDeleteButton = () => {
     notify().success("Post deleted");
     handleCloseDeleteModal();
     dispatch(deletePost(post._id));
   };
+  // Handles Like
   const handleLike = () => {
     console.log(post);
     dispatch(toggleLikePost(post._id));
   };
+
   return (
     <Card className="post-card">
       <div className="overlay">
@@ -64,7 +74,7 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
       </div>
       <div className="details">
         <Typography variant="body2" color="textSecondary" component="h2">
-          {/* {post.tags.map((tag) => `#${tag} `)} */}
+          {post.tags[0].split(" ").map((tag) => `#${tag} `)}
         </Typography>
       </div>
       <Typography className="title" gutterBottom variant="h5" component="h2">
@@ -77,13 +87,24 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
       </CardContent>
       <CardActions className="cardActions">
         {post.likes.includes(auth?.user.id) ? (
-          <Button onClick={handleLike}>Liked</Button>
+          <Button onClick={handleLike}>
+            <FavoriteIcon className="text-danger" />
+          </Button>
         ) : (
-          <Button size="small" color="primary" onClick={handleLike}>
-            <ThumbUpOffAltIcon className="me-2" fontSize="small" />{" "}
+          <Button
+            size="small"
+            onClick={
+              auth
+                ? handleLike
+                : () => {
+                    notify().error("Please login to engage");
+                  }
+            }
+          >
+            <FavoriteBorderIcon className="" />{" "}
           </Button>
         )}
-
+        <span className="me-auto">{post.likes.length}</span>
         {auth?.user.id === post.creator._id && (
           <Button
             size="small"

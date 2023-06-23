@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8000" });
+const API = axios.create({
+  baseURL: "https://memoriesapi.socialise-india.in/",
+});
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
     let token = JSON.parse(localStorage.getItem("profile")).token;

@@ -39,9 +39,10 @@
 }
 
 .post-card .cardActions {
-  padding: 0 0 2 0;
+  padding: 0 0 0 0;
   display: flex;
   justify-content: space-between;
+  gap: 1;
 }
 .post-card .media {
   height: 0;

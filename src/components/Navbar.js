@@ -1,25 +1,28 @@
 import React from "react";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { IconButton } from "@mui/material";
-import LoginIcon from "@mui/icons-material/Login";
-import memories from "../../images/memories.png";
-import Form from "../Form/Form";
+import Form from "./Form";
 import { Modal } from "react-bootstrap";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Avatar } from "@mui/material";
 import Dropdown from "react-bootstrap/Dropdown";
-import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, setAuth } from "../../actions/auth";
-import auth from "../../reducers/auth";
+import { logout, setAuth } from "../actions/auth";
+
+import Switch from "../components/Switch";
+
+import "../styles/Navbar.css";
+import memories from "../images/memories.png";
+
 export const Navbar = ({ show, setShow, currentId, setCurrentId }) => {
   const [user, setUser] = useState(null);
   const authData = useSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleShow = () => {
     setShow(true);
   };
@@ -31,28 +34,32 @@ export const Navbar = ({ show, setShow, currentId, setCurrentId }) => {
     dispatch(logout("LOGOUT"));
     setUser(null);
   };
+
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("profile"));
-    // console.log(data);
     dispatch(setAuth(data));
   }, []);
+
   useEffect(() => {
     if (authData) {
       setUser(authData);
     }
   }, [authData]);
   return (
-    <nav
-      className="appBar d-flex justify-content-around"
-      position="static"
-      color="inherit"
-    >
-      <img className="app-image " src={memories} alt="memories" height="60" />
+    <nav className="appBar d-flex fixed-top justify-content-around">
+      <img
+        className="app-image cursor-pointer "
+        src={memories}
+        alt="memories"
+        height="50"
+        onClick={() => {
+          navigate("/");
+        }}
+      />
       <div
         className="d-flex align-items-center p-2  ms-auto gap-3"
         variant="primary"
       >
-        {/* {console.log("user", user)} */}
         {user && (
           <>
             <IconButton
@@ -68,7 +75,9 @@ export const Navbar = ({ show, setShow, currentId, setCurrentId }) => {
                 className="drop-down-toggler"
                 id="dropdown-basic"
               >
-                <Avatar sx={{ width: 50, height: 50 }}>A</Avatar>
+                <Avatar sx={{ width: 50, height: 50 }}>
+                  <span className="text-capitalize">{user.user.name[0]}</span>
+                </Avatar>
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="mt-3 ">
@@ -92,7 +101,7 @@ export const Navbar = ({ show, setShow, currentId, setCurrentId }) => {
             </Dropdown>
           </>
         )}
-
+        {/* Shows login tab for No user */}
         {!user && (
           <>
             {" "}
