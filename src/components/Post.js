@@ -8,7 +8,6 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteIcon from "@mui/icons-material/Favorite";
