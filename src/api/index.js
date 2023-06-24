@@ -30,7 +30,7 @@ const customFetch = async function (method, url, data) {
       data: response.data,
     };
   } catch (e) {
-    console.log(e);
+    console.log(e.stack);
     if (e.response) {
       return {
         success: false,
@@ -59,8 +59,8 @@ export const updatePost = async (postId, updatedPost) => {
   return response;
 };
 export const deletePost = async (postId) => {
-  const posts = await API.delete(`/posts/${postId}`);
-  return posts.data;
+  const response = await customFetch("DELETE", `/posts/${postId}`);
+  return response;
 };
 
 export const toggleLikePost = async (postId) => {

@@ -35,6 +35,7 @@ const Posts = ({ setCurrentId, setShow, show, isMyFeed }) => {
       id="posts"
       className=" d-flex gap-4 flex-wrap justify-content-center   align-items-stretch container "
     >
+      {console.log(posts)}
       {homePosts.map((post) => {
         return (
           <div className="post-container col-10 col-md-6 col-lg-6 mt-4">

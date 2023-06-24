@@ -8,6 +8,7 @@ import "../styles/Form.css";
 import { notify } from "./Notification";
 
 const Form = ({ show, setShow, currentId, setCurrentId }) => {
+  const posts = useSelector((state) => state.posts);
   // Checks if the Form is to Update or Create
   const postToBeUpdated = useSelector((state) => {
     return currentId ? state.posts.find((p) => p._id === currentId) : null;
@@ -21,16 +22,19 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
   });
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     // Sets Form Data to Post data to be updated
     if (postToBeUpdated) {
       setpostData(postToBeUpdated);
     }
-  }, [postToBeUpdated]);
+    setLoading(false);
+  }, [postToBeUpdated, setLoading, posts]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     if (currentId) {
       //Updates Post
       const message = await dispatch(updatePost(currentId, postData));
@@ -41,7 +45,9 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
       }
     } else {
       // Current id null ==> Post creation
+
       const message = await dispatch(createPost(postData));
+
       if (message) {
         notify().error(message);
       } else {
@@ -113,11 +119,21 @@ const Form = ({ show, setShow, currentId, setCurrentId }) => {
             }
             required
           />
+          <div className="text-danger">File Size limit :1mb</div>
         </div>
         <input
           type="submit"
           className="btn btn-outline-primary p-2"
-          value={currentId ? `Update ` : `Post`}
+          value={
+            currentId
+              ? loading
+                ? `Updating..`
+                : `Update `
+              : loading
+              ? `Posting...`
+              : `Post`
+          }
+          disabled={loading ? true : false}
         />
       </form>
     </Paper>

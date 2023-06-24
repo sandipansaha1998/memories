@@ -56,7 +56,11 @@ export const updatePost = (id, updatedPost) => async (dispatch) => {
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    await api.deletePost(id);
+    console.log("Dispatched");
+    const response = await api.deletePost(id);
+    if (!response.success) {
+      return response.message;
+    }
 
     dispatch({
       type: "DELETE",

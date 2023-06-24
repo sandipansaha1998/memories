@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -20,6 +20,9 @@ import { notify } from "./Notification";
 import "../styles/Post.css";
 
 const Post = ({ post, setCurrentId, show, setShow }) => {
+  const posts = useSelector((state) => state.posts);
+  const [loading, setLoading] = useState(false);
+
   // Hook for Visibilty of confirm delete modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   // Show and close handles
@@ -30,16 +33,25 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
 
   const auth = useSelector((state) => state.auth);
   // Handles delete
-  const handleDeleteButton = () => {
-    notify().success("Post deleted");
+  const handleDeleteButton = async () => {
+    setLoading(true);
+    let message = await dispatch(deletePost(post._id));
+    console.log(message);
+    if (!message) {
+      notify().success("Post deleted");
+    } else {
+      notify().error(message);
+    }
     handleCloseDeleteModal();
-    dispatch(deletePost(post._id));
+    console.log(posts.length);
   };
   // Handles Like
   const handleLike = () => {
     dispatch(toggleLikePost(post._id));
   };
-
+  useEffect(() => {
+    setLoading(false);
+  }, [posts, setLoading]);
   return (
     <Card className="post-card">
       <div className="overlay">
@@ -110,6 +122,7 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
             onClick={() => {
               handleShowDeleteModal();
             }}
+            disabled={loading ? true : false}
           >
             <DeleteIcon fontSize="small" />
           </Button>
@@ -120,7 +133,7 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
       <Modal id="delete" show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body className="text-center">
-          Deleted posts cannot be deleted
+          Deleted posts cannot be retrieved
         </Modal.Body>
         <Modal.Footer>
           <Button
@@ -128,7 +141,7 @@ const Post = ({ post, setCurrentId, show, setShow }) => {
             color="error"
             onClick={handleDeleteButton}
           >
-            Delete
+            {loading ? `Deleting` : <DeleteIcon fontSize="small" />}{" "}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -16,7 +16,9 @@ const posts = (posts = null, action) => {
         }
         return false;
       });
+      console.log(postsNow);
       return postsNow;
+
     default:
       return posts;
   }
