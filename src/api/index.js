@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://memoriesapi.socialise-india.in/",
+  baseURL: "https://memories-api-414v.onrender.com",
 });
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {

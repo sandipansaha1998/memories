@@ -8,7 +8,7 @@ import "../styles/Form.css";
 import { notify } from "./Notification";
 
 const Form = ({ show, setShow, currentId, setCurrentId }) => {
-  const posts = useSelector((state) => state.posts);
+  const posts = (state) => state.posts;
   // Checks if the Form is to Update or Create
   const postToBeUpdated = useSelector((state) => {
     return currentId ? state.posts.find((p) => p._id === currentId) : null;
